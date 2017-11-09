@@ -1,9 +1,18 @@
 import { combineReducers } from 'redux'
 
-const initialPostState = {
-  voteScore: 666,
-  title: "I promise this isn't a reddit clone"
-}
+const initialPostState = [
+  {
+    id: 1,
+    voteScore: 666,
+    title: "I promise this isn't a reddit clone"
+  } ,
+  {
+    id: 2,
+    voteScore: 711,
+    title: "Conspiracy theories CUNIFREMD"
+  }
+]
+
 
 function post (state = initialPostState, action) {
   switch (action.type) {

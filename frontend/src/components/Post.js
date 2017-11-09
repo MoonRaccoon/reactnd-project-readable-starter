@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 class Post extends Component {
+
+  // TODO: PROP VALIDATION
+
+
   render() {
     return (
       <div className="post">
