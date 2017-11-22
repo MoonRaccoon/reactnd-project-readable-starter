@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-class Post extends Component {
+class PostDetail extends Component {
 
   // TODO: PROP VALIDATION
 
@@ -16,17 +16,15 @@ class Post extends Component {
           <button>Downvote</button>
         </div>
         <div className="content">
-          <span className="title">{this.props.title}</span>
+          <h3 className="title">{this.props.title}</h3>
+          <p>{this.props.body}</p>
           <p className="subtitle">
             posted by {this.props.author} at {this.props.timestamp}
           </p>
-          <Link to={"/posts/" + this.props.id}>
-            <button>Detail</button>
-          </Link>
         </div>
       </div>
     )
   }
 }
 
-export default Post
+export default PostDetail

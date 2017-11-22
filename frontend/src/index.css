@@ -12,7 +12,12 @@ li {
   list-style-type: none;
 }
 
+.createPost {
+  margin: 10px;
+}
+
 .post {
+  display: flex;
   text-align: left;
   padding: 20px;
   font-size: 1em;
@@ -43,6 +48,10 @@ li {
   display: inline-flex;
   flex-direction: column;
   text-align: center;
+}
+
+.subtitle {
+  font-size: 80%;
 }
 
 .container {
