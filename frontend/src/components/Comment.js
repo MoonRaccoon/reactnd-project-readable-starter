@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { upVote, downVote } from '../actions'
 import { Link } from 'react-router-dom'
 
-class Post extends Component {
+class Comment extends Component {
 
   // TODO: PROP VALIDATION
 
 
   render() {
-    const {id, title, author, timestamp, voteScore, upVote, downVote} = this.props
+    const {id, parentID, body, author, timestamp, voteScore, upVote, downVote} = this.props
 
     return (
       <div className="post">
@@ -43,4 +43,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)

@@ -16,6 +16,67 @@ li {
   margin: 10px;
 }
 
+.postControl {
+  display: flex;
+}
+
+.postForm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.postForm button {
+  margin: 20px;
+  font-size: 17px;
+}
+
+.categorySelect {
+  padding-left: 10px;
+  font-size: 17px;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+}
+
+.modalButtons {
+  display: flex;
+  align-items: center;
+}
+
+.modalButtons button {
+  margin-left: 10px;
+}
+
+.commentBox button {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.commentsTop {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 20px;
+  margin-left: 30px;
+}
+
+.commentsTop button {
+  border: none;
+  color: #2a359d;
+  font-size: 14px;
+}
+
+.comments {
+  width: 80%;
+}
+
+textarea {
+  font-size: 17px;
+  border-radius: 5px;
+  padding: 5px;
+  padding-left: 8px;
+}
+
 .post {
   display: flex;
   text-align: left;
@@ -24,6 +85,36 @@ li {
   border: 1px solid #bdbdbd;
   outline: none;
 }
+
+.comment {
+  display: flex;
+  text-align: left;
+  padding: 20px;
+  font-size: 1em;
+  border: 1px solid #bdbdbd;
+  border-radius: 10px;
+  outline: none;
+}
+
+.comment .content {
+  display: inline-flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.comment .content button {
+  text-align: left;
+  border: none;
+  background: none;
+  color: #2a359d;
+  margin-top: 10px;
+}
+
+.comment button {
+  margin: 3px;
+  max-width: 70px;
+}
+
 
 .post .content {
   display: inline-flex;
@@ -134,9 +225,9 @@ li {
 .modal {
   position: absolute;
   top: 40px;
-  left: 200px;
-  right: 200px;
-  bottom: 40px;
+  left: 30%;
+  right: 50%;
+  bottom: 250px;
   border: 1px solid rgb(204, 204, 204);
   background: rgb(255, 255, 255);
   overflow: auto;

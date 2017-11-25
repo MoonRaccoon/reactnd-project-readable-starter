@@ -8,11 +8,7 @@ class Root extends Component {
 
   // TODO: PROP VALIDATION
 
-  setCategory = (category) => {
-    this.setState({ category: category})
-  }
-
-  listPosts = (post) => {
+  listPosts = () => {
     return (
       this.props.posts
         .filter((post) => {

@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
-import {CHANGE_CATEGORY} from "../actions/index";
+import {CHANGE_CATEGORY, UP_VOTE, DOWN_VOTE, EDIT_POST, DELETE_POST, CREATE_POST} from "../actions/index";
 
 const initialCategoryState = 'all'
 
 const initialPostState = [
   {
-    id: 1,
+    id: "1",
     voteScore: 666,
     timestamp: 0,
     title: "I promise this isn't a reddit clone",
@@ -21,7 +21,7 @@ const initialPostState = [
     deleted: false
   } ,
   {
-    id: 2,
+    id: "2",
     voteScore: 711,
     timestamp: 0,
     title: "Conspiracy theories CUNIFREMD",
@@ -35,7 +35,7 @@ const initialPostState = [
     deleted: false
   } ,
   {
-    id: 3,
+    id: "3",
     voteScore: 420,
     timestamp: 0,
     title: "Udacimemes to the MAX (LIT AF!!!)",
@@ -56,7 +56,47 @@ const initialPostState = [
 
 
 function post (state = initialPostState, action) {
+  const { id, title, author, body, category, timestamp } = action
+  const findPostIndex = (state) => {
+    return state.findIndex((post) => (post.id === id))
+  }
+
   switch (action.type) {
+    case UP_VOTE:
+      return (() => {
+        let newState = [...state]
+        newState[findPostIndex(newState)].voteScore++
+        return newState
+      })()
+    case DOWN_VOTE:
+      return (() => {
+        let newState = [...state]
+        newState[findPostIndex(newState)].voteScore--
+        return newState
+      })()
+    case EDIT_POST:
+      return (() => {
+        let newState = [...state]
+        newState[findPostIndex(newState)].title = title
+        newState[findPostIndex(newState)].author = author
+        newState[findPostIndex(newState)].body = body
+        newState[findPostIndex(newState)].category = category
+        return newState
+      })()
+    case CREATE_POST:
+      return [
+        ...state,
+        {
+          id: id,
+          voteScore: 0,
+          timestamp: timestamp,
+          title: title,
+          body: body,
+          author: author,
+          category: category,
+          deleted: false
+        }
+      ]
     default:
       return state
   }

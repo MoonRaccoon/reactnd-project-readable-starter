@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { connect } from 'react-redux'
-import { changeCategory } from "./actions/index";
-import Post from './components/Post'
 import PostDetail from './components/PostDetail'
 import Root from './components/Root'
+import PostForm from './components/PostForm'
 import { Route } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -25,10 +23,11 @@ class App extends Component {
         )}/>
         <Route path="/posts/:id" render={({ match }) => {
           const matchPost = this.props.posts.find((post) => {
-            return post.id === parseInt(match.params.id)
+            return post.id === match.params.id
           })
 
-          return <PostDetail title={matchPost.title}
+          return <PostDetail id={matchPost.id}
+                             title={matchPost.title}
                              voteScore={matchPost.voteScore}
                              timestamp={matchPost.timestamp}
                              body={matchPost.body}
@@ -42,18 +41,20 @@ class App extends Component {
           //  />
           //))
         }}/>
-        <Route path="/create" render={() => (
-          <span>Post Creation Page</span>
+        <Route exact path="/create" render={({ match }) => (
+          <PostForm/>
+        )}/>
+        <Route path="/create/:id" render={({ match }) => (
+          <PostForm id={match.params.id}/>
         )}/>
       </div>
     );
   }
 }
 
-function mapStateToProps ({ post, category }) {
+function mapStateToProps ({ post }) {
   return {
-    posts: post,
-    category: category
+    posts: post
   }
 }
 
