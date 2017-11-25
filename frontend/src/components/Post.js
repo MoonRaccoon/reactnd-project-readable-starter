@@ -11,7 +11,12 @@ class Post extends Component {
   render() {
     const {id, title, author, timestamp, voteScore, upVote, downVote} = this.props
 
-    return (
+    this.getDate = () => {
+      const date = new Date(timestamp)
+      return date.toDateString() + " " + date.toTimeString()
+    }
+
+      return (
       <div className="post">
         <div className="vote">
           <button onClick={() => (upVote(id))} >Upvote</button>
@@ -21,7 +26,7 @@ class Post extends Component {
         <div className="content">
           <span className="title">{title}</span>
           <p className="subtitle">
-            posted by {author} at {timestamp}
+            posted by {author} at {this.getDate()}
           </p>
           <Link to={"/posts/" + id}>
             <button>Detail</button>

@@ -21,6 +21,11 @@ class PostDetail extends Component {
   render() {
     const {id, title, body, author, timestamp, voteScore, upVote, downVote} = this.props
 
+    this.getDate = () => {
+      const date = new Date(timestamp)
+      return date.toDateString() + " " + date.toTimeString()
+    }
+
     return (
      <div>
         <div className="post">
@@ -31,9 +36,9 @@ class PostDetail extends Component {
           </div>
           <div className="content">
             <h3 className="title">{title}</h3>
-            <p>{body}</p>
+            <p className="display-linebreak">{body}</p>
             <p className="subtitle">
-              posted by {author} at {timestamp}
+              posted by {author} at {this.getDate()}
             </p>
             <div className="postControl">
               <Link to={'/create/' + id}>

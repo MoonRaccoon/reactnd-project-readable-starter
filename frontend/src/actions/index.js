@@ -27,14 +27,12 @@ export function downVote (id) {
   }
 }
 
-export function editPost ({ id, title, author, body, category }) {
+export function editPost ({ id, title, body }) {
   return {
     type: EDIT_POST,
     id,
     title,
-    author,
-    body,
-    category
+    body
   }
 }
 
@@ -43,8 +41,8 @@ export function createPost ({ id, title, author, body, category, timestamp }) {
     type: CREATE_POST,
     id,
     title,
-    author,
     body,
+    author,
     category,
     timestamp
   }

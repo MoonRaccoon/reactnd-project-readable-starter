@@ -78,9 +78,7 @@ function post (state = initialPostState, action) {
       return (() => {
         let newState = [...state]
         newState[findPostIndex(newState)].title = title
-        newState[findPostIndex(newState)].author = author
         newState[findPostIndex(newState)].body = body
-        newState[findPostIndex(newState)].category = category
         return newState
       })()
     case CREATE_POST:
