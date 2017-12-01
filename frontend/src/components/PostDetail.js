@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { upVote, downVote } from '../actions'
+import { upVote, downVote, deletePost, deleteParent } from '../actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Modal from 'react-modal'
+import Comment from './Comment'
+import CommentModal from "./CommentModal";
+
 class PostDetail extends Component {
 
   // TODO: PROP VALIDATION
 
   state = {
-    isCommentModalOpen: false
+    isCommentModalOpen: false,
+    isEditModalOpen: false,
+    commentToEdit: ""
   }
 
   updateField = (field, data) => {
@@ -18,13 +22,41 @@ class PostDetail extends Component {
     })))
   }
 
-  render() {
-    const {id, title, body, author, timestamp, voteScore, upVote, downVote} = this.props
+  filterComments = () => {
+    const { comments } = this.props
+    return comments.filter((comment) => {
+      if (comment.deleted) {
+        return false
+      }
+      else if (comment.parentId === this.props.id) {
+        return true
+      }
+    }).sort(this.props.compareVoteScore)
+  }
 
-    this.getDate = () => {
-      const date = new Date(timestamp)
-      return date.toDateString() + " " + date.toTimeString()
-    }
+  listComments = () => {
+    return (
+      this.filterComments()
+        .map((comment) => (
+            <li key={comment.id}>
+              <Comment id={comment.id}
+                       parentId={this.props.id}
+                       voteScore={comment.voteScore}
+                       timestamp={comment.timestamp}
+                       body={comment.body}
+                       author={comment.author}
+                       updateField={this.updateField}
+              />
+            </li>
+          )
+        )
+    )
+  }
+
+  render() {
+    const {id, title, body, author, timestamp, voteScore, upVote, downVote, deletePost } = this.props
+
+    const commentString = "this post has " + this.filterComments().length + " comment"
 
     return (
      <div>
@@ -38,76 +70,52 @@ class PostDetail extends Component {
             <h3 className="title">{title}</h3>
             <p className="display-linebreak">{body}</p>
             <p className="subtitle">
-              posted by {author} at {this.getDate()}
+              posted by {author} on {this.props.getDate(timestamp)}
             </p>
             <div className="postControl">
               <Link to={'/create/' + id}>
                 <button>Edit</button>
               </Link>
-              <button>Delete</button>
+              <Link to='/'>
+                <button onClick={() => {
+                  deletePost(id)
+                  this.filterComments().forEach((comment) => (deleteParent(comment.id)))}}>Delete</button>
+              </Link>
             </div>
           </div>
         </div>
-
-       <Modal
-         className='modal'
-         overlayClassName='overlay'
-         isOpen={this.state.isCommentModalOpen}
-         contentLabel='Modal'
-       >
-         <div className="commentForm">
-           <h3>comment on this post</h3>
-           <h5>author</h5>
-           <div className="commentBox">
-             <textarea cols="50"
-                       rows="1">
-             </textarea>
-               <h5>body</h5>
-               <textarea cols="50"
-                         rows="6">
-             </textarea>
-             <div className="modalButtons">
-               <button>Submit</button>
-               <button onClick={() => {this.updateField("isCommentModalOpen", false)}}>Cancel</button>
-             </div>
-           </div>
-         </div>
-       </Modal>
+       <CommentModal isCommentModalOpen={this.state.isCommentModalOpen}
+                     updateField={this.updateField}
+                     parentId={id}/>
+       {this.state.isEditModalOpen && <CommentModal isEditModalOpen={this.state.isEditModalOpen}
+                                                    updateField={this.updateField}
+                                                    parentId={this.props.id}
+                                                    id={this.state.commentToEdit}/>}
        <div className="commentsTop">
-         <span>{"this post has 0 comments"}</span>
+         <span>{this.filterComments().length !== 1 ? commentString + "s" : commentString}</span>
          <button onClick={() => (this.updateField("isCommentModalOpen", true))}>write a comment</button>
        </div>
-       {/*<div className="comments">
-         <div className="comment">
-           <div className="vote">
-             <button onClick={() => (upVote(id))} >Upvote</button>
-             <span>{voteScore}</span>
-             <button onClick={() => (downVote(id))}>Downvote</button>
-           </div>
-           <div className="content">
-             <span className="title">{title}</span>
-             <p className="subtitle">
-               posted by {author} at {timestamp}
-             </p>
-             <Link to={"/posts/" + id}>
-               <button>Detail</button>
-             </Link>
-           </div>
-         </div>
-       </div>*/}
+       <div className="comments">
+         {this.listComments()}
+       </div>
      </div>
-      )
-    }
+    )
   }
+}
 
-  function mapStateToProps () {
-    return {}
+
+function mapStateToProps ({ comment }) {
+  return {
+    comments: comment
   }
+}
 
 function mapDispatchToProps (dispatch) {
   return {
     upVote: (data) => dispatch(upVote(data)),
-    downVote: (data) => dispatch(downVote(data))
+    downVote: (data) => dispatch(downVote(data)),
+    deletePost: (data) => dispatch(deletePost(data)),
+    deleteParent: (data) => dispatch(deleteParent(data))
   }
 }
 

@@ -12,6 +12,33 @@ class App extends Component {
 
   //TODO - refactor post id matching (2nd route render function)
 
+  getDate = (timestamp) => {
+    const date = new Date(timestamp)
+    return date.toDateString() + " " + date.toTimeString()
+  }
+
+  compareVoteScore = (a, b) => {
+    if (a.voteScore > b.voteScore) {
+      return -1;
+    }
+    if (a.voteScore < b.voteScore) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
+
+  compareTimestamp = (a, b) => {
+    if (a.timestamp > b.timestamp) {
+      return -1;
+    }
+    if (a.timestamp < b.timestamp) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
+
   render() {
     return (
       <div className="App">
@@ -19,7 +46,9 @@ class App extends Component {
           <h1>Readable</h1>
        </Link>
         <Route exact path="/" render={() => (
-          <Root/>
+          <Root getDate={this.getDate}
+                compareVoteScore={this.compareVoteScore}
+                compareTimestamp={this.compareTimestamp}/>
         )}/>
         <Route path="/posts/:id" render={({ match }) => {
           const matchPost = this.props.posts.find((post) => {
@@ -31,7 +60,9 @@ class App extends Component {
                              voteScore={matchPost.voteScore}
                              timestamp={matchPost.timestamp}
                              body={matchPost.body}
-                             author={matchPost.author}/>
+                             author={matchPost.author}
+                             getDate={this.getDate}
+                             compareVoteScore={this.compareVoteScore}/>
           //.map((post) => (
           //  <Post key={post.id}
           //        title={post.title}

@@ -1,31 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { upVote, downVote } from '../actions'
-import { Link } from 'react-router-dom'
+import { commentUpVote, commentDownVote, deleteComment } from '../actions'
 
 class Comment extends Component {
 
   // TODO: PROP VALIDATION
 
-
   render() {
-    const {id, parentID, body, author, timestamp, voteScore, upVote, downVote} = this.props
+    const {id, parentId, body, author, timestamp, voteScore, commentUpVote, commentDownVote, deleteComment} = this.props
+
+    function getDate() {
+      const date = new Date(timestamp)
+      return date.toDateString() + " " + date.toTimeString()
+    }
 
     return (
-      <div className="post">
+      <div className="comment">
         <div className="vote">
-          <button onClick={() => (upVote(id))} >Upvote</button>
+          <button onClick={() => (commentUpVote(id))} >Upvote</button>
           <span>{voteScore}</span>
-          <button onClick={() => (downVote(id))}>Downvote</button>
+          <button onClick={() => (commentDownVote(id))}>Downvote</button>
         </div>
         <div className="content">
-          <span className="title">{title}</span>
+          <span className="subtitle">
+            {author} says:
+          </span>
+          <p className="display-linebreak">{body}</p>
           <p className="subtitle">
-            posted by {author} at {timestamp}
+            posted on {getDate()}
           </p>
-          <Link to={"/posts/" + id}>
-            <button>Detail</button>
-          </Link>
+          <div className="postControl">
+            <button onClick={() => {
+              this.props.updateField("isEditModalOpen", true)
+              this.props.updateField('commentToEdit', id)
+            }}>Edit</button>
+            <button onClick={() => (deleteComment(id))}>Delete</button>
+          </div>
         </div>
       </div>
     )
@@ -38,8 +48,9 @@ function mapStateToProps () {
 
 function mapDispatchToProps (dispatch) {
   return {
-    upVote: (data) => dispatch(upVote(data)),
-    downVote: (data) => dispatch(downVote(data))
+    commentUpVote: (data) => dispatch(commentUpVote(data)),
+    commentDownVote: (data) => dispatch(commentDownVote(data)),
+    deleteComment: (data) => dispatch(deleteComment(data))
   }
 }
 
