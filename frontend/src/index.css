@@ -47,6 +47,10 @@ li {
   align-items: center;
 }
 
+.modalButtons p {
+  padding-top: 15px;
+}
+
 .modalButtons button {
   margin-left: 10px;
 }
@@ -89,6 +93,10 @@ textarea {
   font-size: 1em;
   border: 1px solid #bdbdbd;
   outline: none;
+}
+
+.formIncomplete {
+    padding: 10px;
 }
 
 .comment {

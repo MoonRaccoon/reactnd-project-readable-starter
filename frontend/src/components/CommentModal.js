@@ -40,9 +40,36 @@ class CommentModal extends Component {
     })
   }
 
-  render() {
+  createFormFilled = () => {
     const UUID = require('uuid/v4')
+    if (this.state.author !== "" && this.state.body !== "") {
+      return <button onClick={() => {
+        this.props.createComment({
+          id: UUID(), // TODO - CHANGE TO UUID
+          parentId: this.props.parentId,
+          body: this.state.body,
+          author: this.state.author,
+          timestamp: Date.now()})
+        this.props.updateField("isCommentModalOpen", false)
+        this.clearForm()}}>Submit</button>
+    }
+    return <p>Please fill out all fields to continue</p>
+  }
 
+  editFormFilled = () => {
+    if (this.state.body !== "") {
+      return <button onClick={() => {
+        this.props.editComment({
+          id: this.comment.id, // TODO - CHANGE TO UUID
+          body: this.state.body,
+          timestamp: Date.now()})
+        this.props.updateField("isEditModalOpen", false)
+        this.clearForm()}}>Submit</button>
+    }
+    return <p>Please fill out all fields to continue</p>
+  }
+
+  render() {
     return (
       <Modal
         className='modal'
@@ -71,23 +98,9 @@ class CommentModal extends Component {
              </textarea>
             <div className="modalButtons">
               {this.isEdit() ?
-                <button onClick={() => {
-                  this.props.editComment({
-                    id: this.comment.id, // TODO - CHANGE TO UUID
-                    body: this.state.body,
-                    timestamp: Date.now()})
-                  this.props.updateField("isEditModalOpen", false)
-                  this.clearForm()}}>Submit</button>
+                this.editFormFilled()
               :
-                <button onClick={() => {
-                  this.props.createComment({
-                    id: UUID(), // TODO - CHANGE TO UUID
-                    parentId: this.props.parentId,
-                    body: this.state.body,
-                    author: this.state.author,
-                    timestamp: Date.now()})
-                  this.props.updateField("isCommentModalOpen", false)
-                  this.clearForm()}}>Submit</button>
+                this.createFormFilled()
               }
 
               {this.props.isEditModalOpen ?

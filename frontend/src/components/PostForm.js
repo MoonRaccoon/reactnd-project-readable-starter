@@ -36,6 +36,23 @@ class PostForm extends Component {
     })))
   }
 
+  createFormFilled = () => {
+    if (this.state.title !== "" &&
+        this.state.author !== "" &&
+        this.state.body !== "" &&
+        this.state.category !== "") {
+      return true
+    }
+    return false
+  }
+
+  editFormFilled = () => {
+    if (this.state.title !== "" && this.state.body !== "") {
+      return true
+    }
+    return false
+  }
+
   render() {
     const UUID = require('uuid/v4')
     return (
@@ -57,14 +74,19 @@ class PostForm extends Component {
                       value={this.state.body}
                       onChange={(event) => (this.updateField("body", event.target.value))}>
             </textarea>
-            <Link to={"/posts/" + this.post.id}>
-              <button onClick={() => (this.props.editPost({
-                id: this.post.id,
-                title: this.state.title,
-                body: this.state.body}))}>
-                Submit
-              </button>
-            </Link>
+            {this.editFormFilled() ?
+              <Link to={"/posts/" + this.post.id}>
+                <button onClick={() => (this.props.editPost({
+                  id: this.post.id,
+                  title: this.state.title,
+                  body: this.state.body
+                }))}>
+                  Submit
+                </button>
+              </Link>
+              :
+              <p className="formIncomplete">Please fill out all fields to continue</p>
+            }
           </div>
           :
           <div>
@@ -89,17 +111,22 @@ class PostForm extends Component {
               <button onClick={() => (this.updateField("category", "redux"))}>Redux</button>
               <button onClick={() => (this.updateField("category", "udacity"))}>Udacity</button>
             </div>
-            <Link to="/">
-              <button onClick={() => (this.props.createPost({
-                id: UUID(), // TODO - CHANGE TO UUID
-                title: this.state.title,
-                author: this.state.author,
-                body: this.state.body,
-                category: this.state.category,
-                timestamp: Date.now()}))}>
-                Create
-              </button>
-            </Link>
+            {this.createFormFilled() ?
+              <Link to="/">
+                <button onClick={() => (this.props.createPost({
+                  id: UUID(), // TODO - CHANGE TO UUID
+                  title: this.state.title,
+                  author: this.state.author,
+                  body: this.state.body,
+                  category: this.state.category,
+                  timestamp: Date.now()
+                }))}>
+                  Create
+                </button>
+              </Link>
+              :
+              <p className="formIncomplete">Please fill out all fields and select a category to continue</p>
+            }
           </div>
         }
       </div>
