@@ -3,7 +3,7 @@ import {
   CHANGE_CATEGORY, UP_VOTE, DOWN_VOTE, EDIT_POST, DELETE_POST,
   CREATE_POST, CREATE_COMMENT, COMMENT_UP_VOTE, COMMENT_DOWN_VOTE,
   CHANGE_SORT_ORDER, LOAD_COMMENT_ID, EDIT_COMMENT, DELETE_COMMENT,
-  DELETE_PARENT} from "../actions/index";
+  DELETE_PARENT, GET_POSTS} from "../actions/index";
 
 const initialSortOrderState = 'voteScore'
 
@@ -101,6 +101,8 @@ function post (state = initialPostState, action) {
   }
 
   switch (action.type) {
+    case GET_POSTS:
+      return action.posts
     case UP_VOTE:
       return (() => {
         let newState = [...state]

@@ -89,7 +89,7 @@ class PostForm extends Component {
             }
           </div>
           :
-          <div>
+          <div className="createFlow">
             <h3>Author</h3>
             <textarea name="paragraph_text"
                       cols="50"

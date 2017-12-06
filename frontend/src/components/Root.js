@@ -15,7 +15,7 @@ class Root extends Component {
           if (post.deleted) {
             return false
           }
-          if (this.props.category === 'all') {
+          if (this.props.category === '') {
             return true
           }
           return post.category === this.props.category})
@@ -34,6 +34,7 @@ class Root extends Component {
                     voteScore={post.voteScore}
                     timestamp={post.timestamp}
                     author={post.author}
+                    category={post.category}
                     getDate={this.props.getDate}
               />
             </li>
@@ -45,10 +46,18 @@ class Root extends Component {
   render() {
     return (
       <div>
-        <button onClick={() => (this.props.changeCategory('all'))}>All</button>
-        <button onClick={() => (this.props.changeCategory('react'))}>React</button>
-        <button onClick={() => (this.props.changeCategory('redux'))}>Redux</button>
-        <button onClick={() => (this.props.changeCategory('udacity'))}>Udacity</button>
+        <Link to={"/"}>
+          <button>All</button>
+        </Link>
+        <Link to={"/react"}>
+          <button>React</button>
+        </Link>
+        <Link to={"/redux"}>
+          <button>Redux</button>
+        </Link>
+        <Link to={"/udacity"}>
+          <button>Udacity</button>
+        </Link>
         <div>
           <select value={this.props.sortOrder} onChange={(event) => {this.props.changeSortOrder(event.target.value)}}>
             <option value="none" disabled>Order by...</option>
@@ -67,10 +76,9 @@ class Root extends Component {
 
 
 
-function mapStateToProps ({ post, category, sortOrder }) {
+function mapStateToProps ({ post, sortOrder }) {
   return {
     posts: post,
-    category: category,
     sortOrder: sortOrder
   }
 }

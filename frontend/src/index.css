@@ -30,16 +30,28 @@ li {
   flex-direction: column;
 }
 
+.postForm a {
+  margin-top: 20px;
+}
+
 .postForm button {
-  margin: 20px;
   font-size: 17px;
 }
 
 .categorySelect {
-  padding-left: 10px;
+  padding: 20px;
   font-size: 17px;
   border: 1px solid #bdbdbd;
   border-radius: 10px;
+}
+
+.createFlow button {
+  margin-top: 20px;
+}
+
+.categorySelect button {
+  margin-left: 15px;
+  font-size: 17px;
 }
 
 .modalButtons {

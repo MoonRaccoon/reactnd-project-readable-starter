@@ -9,7 +9,7 @@ class Post extends Component {
 
 
   render() {
-    const {id, title, author, timestamp, getDate, voteScore, upVote, downVote} = this.props
+    const {id, title, author, category, timestamp, getDate, voteScore, upVote, downVote} = this.props
 
       return (
       <div className="post">
@@ -23,7 +23,7 @@ class Post extends Component {
           <p className="subtitle">
             posted by {author} on {getDate(timestamp)}
           </p>
-          <Link to={"/posts/" + id}>
+          <Link to={"/" + category +  "/" + id}>
             <button>Detail</button>
           </Link>
         </div>

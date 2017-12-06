@@ -6,11 +6,16 @@ import Root from './components/Root'
 import PostForm from './components/PostForm'
 import { Route } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import { Link } from 'react-router-dom'
+import { Link, Switch } from 'react-router-dom'
+import { fetchPosts } from './actions/index'
 
 class App extends Component {
 
   //TODO - refactor post id matching (2nd route render function)
+
+  componentWillMount() {
+    this.props.fetchPosts()
+  }
 
   getDate = (timestamp) => {
     const date = new Date(timestamp)
@@ -45,39 +50,40 @@ class App extends Component {
        <Link to="/">
           <h1>Readable</h1>
        </Link>
-        <Route exact path="/" render={() => (
-          <Root getDate={this.getDate}
-                compareVoteScore={this.compareVoteScore}
-                compareTimestamp={this.compareTimestamp}/>
-        )}/>
-        <Route path="/posts/:id" render={({ match }) => {
-          const matchPost = this.props.posts.find((post) => {
-            return post.id === match.params.id
-          })
+        <Switch>
+          <Route exact path="/" render={() => (
+            <Root getDate={this.getDate}
+                  compareVoteScore={this.compareVoteScore}
+                  compareTimestamp={this.compareTimestamp}
+                  category={''}/>
+          )}/>
+          <Route exact path="/create" render={({ match }) => (
+            <PostForm/>
+          )}/>
+          <Route path="/create/:id" render={({ match }) => (
+            <PostForm id={match.params.id}/>
+          )}/>
+          <Route exact path="/:category" render={({ match }) => (
+            <Root getDate={this.getDate}
+                  compareVoteScore={this.compareVoteScore}
+                  compareTimestamp={this.compareTimestamp}
+                  category={match.params.category}/>
+          )}/>
+          <Route path="/:category/:id" render={({ match }) => {
+            const matchPost = this.props.posts.find((post) => {
+              return post.id === match.params.id
+            })
 
-          return <PostDetail id={matchPost.id}
-                             title={matchPost.title}
-                             voteScore={matchPost.voteScore}
-                             timestamp={matchPost.timestamp}
-                             body={matchPost.body}
-                             author={matchPost.author}
-                             getDate={this.getDate}
-                             compareVoteScore={this.compareVoteScore}/>
-          //.map((post) => (
-          //  <Post key={post.id}
-          //        title={post.title}
-          //        voteScore={post.voteScore}
-          //        timestamp={post.timestamp}
-          //       author={post.author}
-          //  />
-          //))
-        }}/>
-        <Route exact path="/create" render={({ match }) => (
-          <PostForm/>
-        )}/>
-        <Route path="/create/:id" render={({ match }) => (
-          <PostForm id={match.params.id}/>
-        )}/>
+            return <PostDetail id={matchPost.id}
+                               title={matchPost.title}
+                               voteScore={matchPost.voteScore}
+                               timestamp={matchPost.timestamp}
+                               body={matchPost.body}
+                               author={matchPost.author}
+                               getDate={this.getDate}
+                               compareVoteScore={this.compareVoteScore}/>
+          }}/>
+        </Switch>
       </div>
     );
   }
@@ -89,4 +95,11 @@ function mapStateToProps ({ post }) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(App))
+function mapDispatchToProps (dispatch) {
+  return {
+    fetchPosts: (data) => dispatch(fetchPosts(data))
+  }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
