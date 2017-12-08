@@ -77,6 +77,12 @@ export function commentDownVote (id) {
   }
 }
 
+export function updatePost (dispatch, post, title, body) {
+  ReadableAPI
+    .updatePost(post, title, body)
+    .then(dispatch(editPost({ id: post.id, title, body })))
+}
+
 export function editPost ({ id, title, body }) {
   return {
     type: EDIT_POST,

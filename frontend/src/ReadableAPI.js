@@ -21,15 +21,18 @@ export const posts = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
 
-export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
+export const updatePost = (post, title, body) =>
+  fetch(`${api}/posts/${post.id}`, {
     method: 'PUT',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ shelf })
-  }).then(res => res.json())
+    body: JSON.stringify({
+      title: title,
+      body: body
+    })
+  }).then(res => res.json()).then(console.log("wow"))
 
 export const search = (query, maxResults) =>
   fetch(`${api}/search`, {

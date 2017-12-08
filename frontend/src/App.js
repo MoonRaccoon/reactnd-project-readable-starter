@@ -13,10 +13,6 @@ class App extends Component {
 
   //TODO - refactor post id matching (2nd route render function)
 
-  componentWillMount() {
-    this.props.fetchPosts()
-  }
-
   getDate = (timestamp) => {
     const date = new Date(timestamp)
     return date.toDateString() + " " + date.toTimeString()

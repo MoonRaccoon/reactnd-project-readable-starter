@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { editPost, createPost } from '../actions/index'
+import { editPost, createPost, updatePost } from '../actions/index'
 import { Link } from 'react-router-dom'
 
 class PostForm extends Component {
@@ -76,11 +76,13 @@ class PostForm extends Component {
             </textarea>
             {this.editFormFilled() ?
               <Link to={"/posts/" + this.post.id}>
-                <button onClick={() => (this.props.editPost({
+                <button onClick={() =>{ /*this.props.editPost({
                   id: this.post.id,
                   title: this.state.title,
                   body: this.state.body
-                }))}>
+                })*/
+                  console.log(this.post, this.state.title, this.state.body)
+                updatePost(this.props.dispatch, this.post, this.state.title, this.state.body)}}>
                   Submit
                 </button>
               </Link>
@@ -140,11 +142,13 @@ function mapStateToProps ({ post }) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+/*function mapDispatchToProps (dispatch) {
   return {
     editPost: (data) => dispatch(editPost(data)),
-    createPost: (data) => dispatch(createPost(data))
+    createPost: (data) => dispatch(createPost(data)),
+    updatePost: (dispatch, ...data) => dispatch(updatePost(dispatch, ...data)),
   }
 }
+*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostForm)
+export default connect(mapStateToProps)(PostForm)

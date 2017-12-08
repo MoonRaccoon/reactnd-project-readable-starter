@@ -94,7 +94,7 @@ const initialCommentState = [
 ]
 
 
-function post (state = initialPostState, action) {
+function post (state = [], action) {
   const { id, title, author, body, category, timestamp } = action
   const findPostIndex = (state) => {
     return state.findIndex((post) => (post.id === id))
