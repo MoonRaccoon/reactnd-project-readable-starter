@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { upVotePost, downVotePost, deletePost, deleteParent, postDelete } from '../actions'
+import { upVotePost, downVotePost, deletePost, deleteParent, postDelete, fetchComments } from '../actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Comment from './Comment'
@@ -8,6 +8,10 @@ import CommentModal from "./CommentModal";
 class PostDetail extends Component {
 
   // TODO: PROP VALIDATION
+
+  componentWillMount() {
+    fetchComments(this.props.dispatch, this.props.id)
+  }
 
   state = {
     isCommentModalOpen: false,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
 import { connect } from 'react-redux'
-import {editComment, createComment } from '../actions/index'
+import {editComment, createComment, newComment, updateComment } from '../actions/index'
 
 class CommentModal extends Component {
 
@@ -44,12 +44,7 @@ class CommentModal extends Component {
     const UUID = require('uuid/v4')
     if (this.state.author !== "" && this.state.body !== "") {
       return <button onClick={() => {
-        this.props.createComment({
-          id: UUID(), // TODO - CHANGE TO UUID
-          parentId: this.props.parentId,
-          body: this.state.body,
-          author: this.state.author,
-          timestamp: Date.now()})
+        newComment(this.props.dispatch, UUID(), Date.now(), this.state.body, this.state.author, this.props.parentId)
         this.props.updateField("isCommentModalOpen", false)
         this.clearForm()}}>Submit</button>
     }
@@ -59,10 +54,7 @@ class CommentModal extends Component {
   editFormFilled = () => {
     if (this.state.body !== "") {
       return <button onClick={() => {
-        this.props.editComment({
-          id: this.comment.id, // TODO - CHANGE TO UUID
-          body: this.state.body,
-          timestamp: Date.now()})
+        updateComment(this.props.dispatch, this.comment.id, Date.now(), this.state.body)
         this.props.updateField("isEditModalOpen", false)
         this.clearForm()}}>Submit</button>
     }
@@ -127,11 +119,5 @@ function mapStateToProps ({ comment, commentToEdit }) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    editComment: (data) => dispatch(editComment(data)),
-    createComment: (data) => dispatch(createComment(data))
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentModal)
+export default connect(mapStateToProps)(CommentModal)

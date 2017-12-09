@@ -3,7 +3,7 @@ import {
   CHANGE_CATEGORY, UP_VOTE, DOWN_VOTE, EDIT_POST, DELETE_POST,
   CREATE_POST, CREATE_COMMENT, COMMENT_UP_VOTE, COMMENT_DOWN_VOTE,
   CHANGE_SORT_ORDER, LOAD_COMMENT_ID, EDIT_COMMENT, DELETE_COMMENT,
-  DELETE_PARENT, GET_POSTS} from "../actions/index";
+  DELETE_PARENT, GET_POSTS, GET_COMMENTS} from "../actions/index";
 
 const initialSortOrderState = 'voteScore'
 
@@ -178,12 +178,14 @@ function sortOrder (state = initialSortOrderState, action) {
   }
 }
 
-function comment (state = initialCommentState, action) {
+function comment (state = [], action) {
   const { id, parentId, author, body, timestamp } = action
   const findCommentIndex = (state) => {
     return state.findIndex((comment) => (comment.id === id))
   }
   switch  (action.type) {
+    case GET_COMMENTS:
+      return action.comments
     case CREATE_COMMENT:
       return [
         ...state,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { commentUpVote, commentDownVote, deleteComment } from '../actions'
+import { commentUpVote, commentDownVote, deleteComment, commentDelete, upVoteComment, downVoteComment } from '../actions'
 
 class Comment extends Component {
 
@@ -17,9 +17,9 @@ class Comment extends Component {
     return (
       <div className="comment">
         <div className="vote">
-          <button onClick={() => (commentUpVote(id))} >Upvote</button>
+          <button onClick={() => (upVoteComment(this.props.dispatch, id))} >Upvote</button>
           <span>{voteScore}</span>
-          <button onClick={() => (commentDownVote(id))}>Downvote</button>
+          <button onClick={() => (downVoteComment(this.props.dispatch, id))}>Downvote</button>
         </div>
         <div className="content">
           <span className="subtitle">
@@ -34,7 +34,7 @@ class Comment extends Component {
               this.props.updateField("isEditModalOpen", true)
               this.props.updateField('commentToEdit', id)
             }}>Edit</button>
-            <button onClick={() => (deleteComment(id))}>Delete</button>
+            <button onClick={() => (commentDelete(this.props.dispatch, id))}>Delete</button>
           </div>
         </div>
       </div>
@@ -42,16 +42,5 @@ class Comment extends Component {
   }
 }
 
-function mapStateToProps () {
-  return {}
-}
 
-function mapDispatchToProps (dispatch) {
-  return {
-    commentUpVote: (data) => dispatch(commentUpVote(data)),
-    commentDownVote: (data) => dispatch(commentDownVote(data)),
-    deleteComment: (data) => dispatch(deleteComment(data))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Comment)
+export default connect()(Comment)

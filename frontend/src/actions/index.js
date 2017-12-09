@@ -15,6 +15,9 @@ export const COMMENT_UP_VOTE = 'COMMENT_UP_VOTE'
 export const COMMENT_DOWN_VOTE = 'COMMENT_DOWN_VOTE'
 export const CHANGE_SORT_ORDER = 'CHANGE_SORT_ORDER'
 export const LOAD_COMMENT_ID = 'LOAD_COMMENT_ID'
+export const GET_COMMENTS = 'GET_COMMENTS'
+export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+
 
 export const getPosts = posts => ({
     type: GET_POSTS,
@@ -91,6 +94,19 @@ export function commentDownVote (id) {
   }
 }
 
+export function upVoteComment (dispatch, id) {
+  ReadableAPI
+    .voteComment(id, "upVote")
+    .then(dispatch(commentUpVote(id)))
+}
+
+export function downVoteComment (dispatch, id) {
+  ReadableAPI
+    .voteComment(id, "downVote")
+    .then(dispatch(commentDownVote(id)))
+}
+
+
 export function updatePost (dispatch, post, title, body) {
   ReadableAPI
     .updatePost(post, title, body)
@@ -130,6 +146,23 @@ export function createPost ({ id, title, author, body, category, timestamp }) {
   }
 }
 
+export const getComments = comments => ({
+  type: GET_COMMENTS,
+  comments
+})
+
+export function fetchComments (dispatch, postId) {
+  ReadableAPI
+    .comments(postId)
+    .then(comments => dispatch(getComments(comments)))
+}
+
+export function updateComment (dispatch, id, timestamp, body) {
+  ReadableAPI
+    .updateComment(id, timestamp, body)
+    .then(dispatch(editComment({ id, timestamp, body })))
+}
+
 export function editComment ({ id, timestamp, body }) {
   return {
     type: EDIT_COMMENT,
@@ -138,6 +171,18 @@ export function editComment ({ id, timestamp, body }) {
     body
   }
 }
+
+export function newComment (dispatch, id, timestamp, body, author, parentId) {
+  ReadableAPI
+    .newComment(id, timestamp, body, author, parentId)
+    .then(dispatch(createComment({
+      id: id,// TODO - CHANGE TO UUID
+      parentId: parentId,
+      author: author,
+      body: body,
+      timestamp: timestamp})))
+}
+
 
 export function createComment ({ id, parentId, author, body, timestamp }) {
   return {
@@ -155,6 +200,12 @@ export function deleteComment (id) {
     type: DELETE_COMMENT,
     id
   }
+}
+
+export function commentDelete (dispatch, id) {
+  ReadableAPI
+    .commentDelete(id)
+    .then(dispatch(deleteComment(id)))
 }
 
 export function deleteParent (id) {
