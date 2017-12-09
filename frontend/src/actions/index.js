@@ -56,6 +56,20 @@ export function upVote (id) {
   }
 }
 
+export function upVotePost (dispatch, id) {
+  ReadableAPI
+    .votePost(id, "upVote")
+    .then(dispatch(upVote(id)))
+}
+
+export function downVotePost (dispatch, id) {
+  ReadableAPI
+    .votePost(id, "downVote")
+    .then(dispatch(downVote(id)))
+}
+
+
+
 export function downVote (id) {
   return {
     type: DOWN_VOTE,
@@ -90,6 +104,18 @@ export function editPost ({ id, title, body }) {
     title,
     body
   }
+}
+
+export function newPost (dispatch, id, timestamp, title, body, author, category) {
+  ReadableAPI
+    .newPost(id, timestamp, title, body, author, category)
+    .then(dispatch(createPost({
+      id: id,// TODO - CHANGE TO UUID
+      title: title,
+      author: author,
+      body: body,
+      category: category,
+      timestamp: timestamp})))
 }
 
 export function createPost ({ id, title, author, body, category, timestamp }) {
@@ -143,4 +169,10 @@ export function deletePost (id) {
     type: DELETE_POST,
     id
   }
+}
+
+export function postDelete (dispatch, id) {
+  ReadableAPI
+    .postDelete(id)
+    .then(dispatch(deletePost(id)))
 }

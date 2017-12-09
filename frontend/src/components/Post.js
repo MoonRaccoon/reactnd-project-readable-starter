@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { upVote, downVote } from '../actions'
+import { upVotePost, downVotePost } from '../actions'
 import { Link } from 'react-router-dom'
 
 class Post extends Component {
@@ -9,14 +9,14 @@ class Post extends Component {
 
 
   render() {
-    const {id, title, author, category, timestamp, getDate, voteScore, upVote, downVote} = this.props
+    const {id, title, author, category, timestamp, getDate, voteScore } = this.props
 
       return (
       <div className="post">
         <div className="vote">
-          <button onClick={() => (upVote(id))} >Upvote</button>
+          <button onClick={() => (upVotePost(this.props.dispatch, id))} >Upvote</button>
           <span>{voteScore}</span>
-          <button onClick={() => (downVote(id))}>Downvote</button>
+          <button onClick={() => (downVotePost(this.props.dispatch, id))}>Downvote</button>
         </div>
         <div className="content">
           <span className="title">{title}</span>
@@ -32,15 +32,5 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps () {
-  return {}
-}
 
-function mapDispatchToProps (dispatch) {
-  return {
-    upVote: (data) => dispatch(upVote(data)),
-    downVote: (data) => dispatch(downVote(data))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+export default connect()(Post)

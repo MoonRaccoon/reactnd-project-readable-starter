@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { upVote, downVote, deletePost, deleteParent } from '../actions'
+import { upVotePost, downVotePost, deletePost, deleteParent, postDelete } from '../actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Comment from './Comment'
@@ -62,9 +62,9 @@ class PostDetail extends Component {
      <div>
         <div className="post">
           <div className="vote">
-            <button onClick={() => (upVote(id))} >Upvote</button>
+            <button onClick={() => (upVotePost(this.props.dispatch, id))} >Upvote</button>
             <span>{voteScore}</span>
-            <button onClick={() => (downVote(id))}>Downvote</button>
+            <button onClick={() => (downVotePost(this.props.dispatch, id))}>Downvote</button>
           </div>
           <div className="content">
             <h3 className="title">{title}</h3>
@@ -78,8 +78,8 @@ class PostDetail extends Component {
               </Link>
               <Link to='/'>
                 <button onClick={() => {
-                  deletePost(id)
-                  this.filterComments().forEach((comment) => (deleteParent(comment.id)))}}>Delete</button>
+                  postDelete(this.props.dispatch, id)
+                  this.filterComments().forEach((comment) => (this.props.dispatch(deleteParent(comment.id))))}}>Delete</button>
               </Link>
             </div>
           </div>
@@ -110,13 +110,5 @@ function mapStateToProps ({ comment }) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    upVote: (data) => dispatch(upVote(data)),
-    downVote: (data) => dispatch(downVote(data)),
-    deletePost: (data) => dispatch(deletePost(data)),
-    deleteParent: (data) => dispatch(deleteParent(data))
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)
+export default connect(mapStateToProps)(PostDetail)

@@ -32,7 +32,44 @@ export const updatePost = (post, title, body) =>
       title: title,
       body: body
     })
-  }).then(res => res.json()).then(console.log("wow"))
+  })
+
+export const postDelete = (id) =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+  })
+
+export const votePost = (id, vote) =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({option: vote})
+  })
+
+export const newPost = (id, timestamp, title, body, author, category) =>
+  fetch(`${api}/posts/`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: id,
+      timestamp: timestamp,
+      title: title,
+      body: body,
+      author: author,
+      category: category
+    })
+  }).then(res => res.json())
+
 
 export const search = (query, maxResults) =>
   fetch(`${api}/search`, {

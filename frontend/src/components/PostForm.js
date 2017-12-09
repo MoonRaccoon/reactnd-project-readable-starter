@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { editPost, createPost, updatePost } from '../actions/index'
+import { editPost, createPost, updatePost, newPost } from '../actions/index'
 import { Link } from 'react-router-dom'
 
 class PostForm extends Component {
@@ -81,7 +81,6 @@ class PostForm extends Component {
                   title: this.state.title,
                   body: this.state.body
                 })*/
-                  console.log(this.post, this.state.title, this.state.body)
                 updatePost(this.props.dispatch, this.post, this.state.title, this.state.body)}}>
                   Submit
                 </button>
@@ -115,14 +114,15 @@ class PostForm extends Component {
             </div>
             {this.createFormFilled() ?
               <Link to="/">
-                <button onClick={() => (this.props.createPost({
-                  id: UUID(), // TODO - CHANGE TO UUID
-                  title: this.state.title,
-                  author: this.state.author,
-                  body: this.state.body,
-                  category: this.state.category,
-                  timestamp: Date.now()
-                }))}>
+                <button onClick={() => {
+                  newPost(
+                    this.props.dispatch,
+                    UUID(),
+                    Date.now(),
+                    this.state.title,
+                    this.state.body,
+                    this.state.author,
+                    this.state.category)}}>
                   Create
                 </button>
               </Link>
