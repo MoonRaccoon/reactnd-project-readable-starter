@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
 import { connect } from 'react-redux'
-import {editComment, createComment, newComment, updateComment } from '../actions/index'
+import { newComment, updateComment } from '../actions/index'
 
 class CommentModal extends Component {
 
@@ -44,7 +44,12 @@ class CommentModal extends Component {
     const UUID = require('uuid/v4')
     if (this.state.author !== "" && this.state.body !== "") {
       return <button onClick={() => {
-        newComment(this.props.dispatch, UUID(), Date.now(), this.state.body, this.state.author, this.props.parentId)
+        newComment(
+          this.props.dispatch,
+          UUID(), Date.now(),
+          this.state.body,
+          this.state.author,
+          this.props.parentId)
         this.props.updateField("isCommentModalOpen", false)
         this.clearForm()}}>Submit</button>
     }

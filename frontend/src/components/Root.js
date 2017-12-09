@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {changeCategory, changeSortOrder} from "../actions/index";
+import { changeSortOrder } from "../actions/index";
 import Post from '../components/Post'
 import { Link } from 'react-router-dom'
 
@@ -85,7 +85,6 @@ function mapStateToProps ({ post, sortOrder }) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    changeCategory: (data) => dispatch(changeCategory(data)),
     changeSortOrder: (data) => dispatch(changeSortOrder(data))
   }
 }

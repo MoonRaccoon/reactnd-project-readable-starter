@@ -11,8 +11,6 @@ import { fetchPosts } from './actions/index'
 
 class App extends Component {
 
-  //TODO - refactor post id matching (2nd route render function)
-
   getDate = (timestamp) => {
     const date = new Date(timestamp)
     return date.toDateString() + " " + date.toTimeString()

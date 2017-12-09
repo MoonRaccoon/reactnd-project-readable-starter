@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { commentUpVote, commentDownVote, deleteComment, commentDelete, upVoteComment, downVoteComment } from '../actions'
+import { commentDelete, upVoteComment, downVoteComment } from '../actions'
 
 class Comment extends Component {
 
   // TODO: PROP VALIDATION
 
   render() {
-    const {id, parentId, body, author, timestamp, voteScore, commentUpVote, commentDownVote, deleteComment} = this.props
+    const {id, parentId, body, author, timestamp, voteScore, } = this.props
 
     function getDate() {
       const date = new Date(timestamp)

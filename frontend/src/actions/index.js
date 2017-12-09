@@ -1,7 +1,6 @@
 import * as ReadableAPI from '../ReadableAPI'
 
 export const GET_POSTS = 'GET_POSTS'
-export const CHANGE_CATEGORY = 'CHANGE_CATEGORY'
 export const UP_VOTE = 'UP_VOTE'
 export const DOWN_VOTE = 'DOWN_VOTE'
 export const EDIT_POST = 'EDIT_POST'
@@ -14,9 +13,7 @@ export const DELETE_PARENT = 'DELETE_PARENT'
 export const COMMENT_UP_VOTE = 'COMMENT_UP_VOTE'
 export const COMMENT_DOWN_VOTE = 'COMMENT_DOWN_VOTE'
 export const CHANGE_SORT_ORDER = 'CHANGE_SORT_ORDER'
-export const LOAD_COMMENT_ID = 'LOAD_COMMENT_ID'
 export const GET_COMMENTS = 'GET_COMMENTS'
-export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 
 
 export const getPosts = posts => ({
@@ -28,27 +25,12 @@ export const fetchPosts = () => (dispatch) => (
   ReadableAPI
     .posts()
     .then(posts => dispatch(getPosts(posts)))
-    .then(posts => console.log(posts))
 );
-
-export function changeCategory (category) {
-  return {
-    type: CHANGE_CATEGORY,
-    category
-  }
-}
 
 export function changeSortOrder (sortOrder) {
   return {
     type: CHANGE_SORT_ORDER,
     sortOrder
-  }
-}
-
-export function loadCommentId (id) {
-  return {
-    type: LOAD_COMMENT_ID,
-    id
   }
 }
 

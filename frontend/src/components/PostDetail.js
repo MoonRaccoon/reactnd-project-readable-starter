@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { upVotePost, downVotePost, deletePost, deleteParent, postDelete, fetchComments } from '../actions'
+import { upVotePost, downVotePost,  deleteParent, postDelete, fetchComments } from '../actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Comment from './Comment'
@@ -58,7 +58,7 @@ class PostDetail extends Component {
   }
 
   render() {
-    const {id, title, body, author, timestamp, voteScore, upVote, downVote, deletePost } = this.props
+    const {id, title, body, author, timestamp, voteScore } = this.props
 
     const commentString = "this post has " + this.filterComments().length + " comment"
 
