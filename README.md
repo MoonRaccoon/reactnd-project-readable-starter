@@ -12,8 +12,9 @@ To get the app up and running:
     - `cd api-server`
     - `npm install`
     - `node server`
-* In another terminal window, use npm start to launch the front-end
+* In another terminal window, use npm install and start to launch the front-end
     - `cd frontend`
+    - `npm install`
     - `npm start`
     
 Then, in your browser, got to localhost:3000.
