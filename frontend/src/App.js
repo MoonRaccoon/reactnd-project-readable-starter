@@ -67,14 +67,18 @@ class App extends Component {
               return post.id === match.params.id
             })
 
-            return <PostDetail id={matchPost.id}
-                               title={matchPost.title}
-                               voteScore={matchPost.voteScore}
-                               timestamp={matchPost.timestamp}
-                               body={matchPost.body}
-                               author={matchPost.author}
-                               getDate={this.getDate}
-                               compareVoteScore={this.compareVoteScore}/>
+            if (typeof matchPost !== "undefined") {
+              return <PostDetail id={matchPost.id}
+                                 title={matchPost.title}
+                                 voteScore={matchPost.voteScore}
+                                 timestamp={matchPost.timestamp}
+                                 body={matchPost.body}
+                                 author={matchPost.author}
+                                 getDate={this.getDate}
+                                 compareVoteScore={this.compareVoteScore}/>
+            }
+
+            return <h3>{"No post found with requested ID: " + match.params.id}</h3>
           }}/>
          <Route render={({ location }) => {
            <div>
