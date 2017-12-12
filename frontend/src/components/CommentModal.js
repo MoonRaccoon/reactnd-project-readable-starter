@@ -73,6 +73,7 @@ class CommentModal extends Component {
         overlayClassName='overlay'
         isOpen={this.props.isCommentModalOpen || this.props.isEditModalOpen}
         contentLabel='Modal'
+        shouldReturnFocusAfterClose={false}
       >
         <div className="commentForm">
           <h3>comment on this post</h3>

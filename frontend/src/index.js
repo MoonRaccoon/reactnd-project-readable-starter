@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Modal from 'react-modal'
 import reducer from './reducers'
 import thunk from 'redux-thunk';
 import registerServiceWorker from './registerServiceWorker';
@@ -16,11 +17,16 @@ const store = createStore(
   applyMiddleware(thunk)
 )
 
-store.dispatch(fetchPosts())
 
-ReactDOM.render(<Provider store={store}>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-</Provider>, document.getElementById('root'));
+fetchPosts(store.dispatch).then(
+  () => {
+    Modal.setAppElement('body');
+    ReactDOM.render(<Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>, document.getElementById('root'));
+  }
+)
+
 registerServiceWorker();

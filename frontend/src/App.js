@@ -7,7 +7,6 @@ import PostForm from './components/PostForm'
 import { Route } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import { Link, Switch } from 'react-router-dom'
-import { fetchPosts } from './actions/index'
 
 class App extends Component {
 
@@ -77,6 +76,11 @@ class App extends Component {
                                getDate={this.getDate}
                                compareVoteScore={this.compareVoteScore}/>
           }}/>
+         <Route render={({ location }) => {
+           <div>
+             <h3>{"No page found for requested URL: " + location}</h3>
+           </div>
+         }}/>
         </Switch>
       </div>
     );
@@ -89,11 +93,4 @@ function mapStateToProps ({ post }) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    fetchPosts: (data) => dispatch(fetchPosts(data))
-  }
-}
-
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(connect(mapStateToProps)(App))

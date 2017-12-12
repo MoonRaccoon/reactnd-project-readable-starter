@@ -75,12 +75,15 @@ class PostForm extends Component {
                       onChange={(event) => (this.updateField("body", event.target.value))}>
             </textarea>
             {this.editFormFilled() ?
-              <Link to={"/posts/" + this.post.id}>
-                <button onClick={() => {
-                  updatePost(this.props.dispatch, this.post, this.state.title, this.state.body)}}>
-                  Submit
-                </button>
-              </Link>
+              <div className="postForm">
+                <Link to={"/" + this.post.category + "/" + this.post.id}>
+                  <button onClick={() => {
+                    updatePost(this.props.dispatch, this.post, this.state.title, this.state.body)}}>
+                    Submit
+                  </button>
+                  <button>Cancel</button>
+                </Link>
+              </div>
               :
               <p className="formIncomplete">Please fill out all fields to continue</p>
             }

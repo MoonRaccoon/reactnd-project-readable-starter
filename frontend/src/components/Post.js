@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { upVotePost, downVotePost } from '../actions'
+import { upVotePost, downVotePost, postDelete } from '../actions'
 import { Link } from 'react-router-dom'
 
 class Post extends Component {
@@ -9,7 +9,7 @@ class Post extends Component {
 
 
   render() {
-    const {id, title, author, category, timestamp, getDate, voteScore } = this.props
+    const {id, title, author, category, timestamp, getDate, voteScore, commentCount } = this.props
 
       return (
       <div className="post">
@@ -23,9 +23,19 @@ class Post extends Component {
           <p className="subtitle">
             posted by {author} on {getDate(timestamp)}
           </p>
-          <Link to={"/" + category +  "/" + id}>
-            <button>Detail</button>
-          </Link>
+          <div className="postButtons">
+            <Link to={"/" + category +  "/" + id} style={{ textDecoration: 'none' }}>
+              <span className="commentCount">{"comments (" + commentCount + ")"}</span>
+            </Link>
+            <Link to={"/create/" + id}>
+              <button>Edit</button>
+            </Link>
+            <Link to={"/"}>
+              <button onClick={() => {
+                postDelete(this.props.dispatch, id)
+              }}>Delete</button>
+            </Link>
+          </div>
         </div>
       </div>
     )

@@ -3,10 +3,15 @@ import { connect } from 'react-redux'
 import { changeSortOrder } from "../actions/index";
 import Post from '../components/Post'
 import { Link } from 'react-router-dom'
+import { fetchPosts } from '../actions/index'
 
 class Root extends Component {
 
   // TODO: PROP VALIDATION
+
+  componentWillMount() {
+    fetchPosts(this.props.dispatch)
+  }
 
   listPosts = () => {
     return (
@@ -35,6 +40,7 @@ class Root extends Component {
                     timestamp={post.timestamp}
                     author={post.author}
                     category={post.category}
+                    commentCount={post.commentCount}
                     getDate={this.props.getDate}
               />
             </li>
@@ -59,7 +65,8 @@ class Root extends Component {
           <button>Udacity</button>
         </Link>
         <div>
-          <select value={this.props.sortOrder} onChange={(event) => {this.props.changeSortOrder(event.target.value)}}>
+          <select value={this.props.sortOrder}
+                  onChange={(event) => {this.props.dispatch(changeSortOrder(event.target.value))}}>
             <option value="none" disabled>Order by...</option>
             <option value="voteScore">Vote</option>
             <option value="timestamp">Timestamp</option>
@@ -83,10 +90,4 @@ function mapStateToProps ({ post, sortOrder }) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    changeSortOrder: (data) => dispatch(changeSortOrder(data))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Root)
+export default connect(mapStateToProps)(Root)
